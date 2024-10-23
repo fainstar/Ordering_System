@@ -1,3 +1,4 @@
+
 import SwiftUI
 
 struct OrderingView: View {
@@ -64,7 +65,7 @@ struct OrderingView: View {
 
             // 新增結帳和取消按鈕
             HStack(spacing: 20) {
-                NavigationLink(destination: OrderDetailView(orderDetail: viewModel.orderDetails(), totalPrice: viewModel.totalPrice()), isActive: $isOrderDetailViewActive) {
+                NavigationLink(destination: OrderDetailView(orderDetail: viewModel.orderDetails(), totalPrice: viewModel.totalPrice(),customerName: userName), isActive: $isOrderDetailViewActive) {
                     EmptyView() // 使用 EmptyView 作為 NavigationLink 目標
                 }
                 
@@ -134,3 +135,4 @@ struct OrderingView_Previews: PreviewProvider {
         }
     }
 }
+

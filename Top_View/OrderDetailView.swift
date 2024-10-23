@@ -3,6 +3,11 @@ import SwiftUI
 struct OrderDetailView: View {
     var orderDetail: String
     var totalPrice: Int
+    var customerName: String
+
+    @State private var showAlert = false
+    @State private var orderStatus = "訂單已送出"  // 假設訂單狀態
+    @State private var waitTime = "大約 15 分鐘"  // 假設等候時間
 
     var discountedPrice: Int {
         return totalPrice > 100 ? Int(Double(totalPrice) * 0.9) : totalPrice
@@ -38,6 +43,8 @@ struct OrderDetailView: View {
             }
 
             Button(action: {
+                showAlert = true // 顯示訊息框
+
                 // 在這裡可以加入完成訂單的邏輯，例如發送訂單到伺服器
                 print("完成訂單")
             }) {
@@ -50,12 +57,19 @@ struct OrderDetailView: View {
             }
             .padding()
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("訂單訊息"),
+                message: Text("顧客名稱: \(customerName)\n訂單狀態: \(orderStatus)\n等候時間: \(waitTime)"),
+                dismissButton: .default(Text("確定"))
+            )
+        }
         .navigationTitle("訂單明細")
     }
 }
 
 struct OrderDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        OrderDetailView(orderDetail: "範例訂單明細", totalPrice: 120) // 示例總金額超過100以測試折扣
+        OrderDetailView(orderDetail: "範例訂單明細", totalPrice: 120,customerName: "test") // 示例總金額超過100以測試折扣
     }
 }
