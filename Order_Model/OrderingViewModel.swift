@@ -20,21 +20,21 @@ class OrderingViewModel: ObservableObject {
         switch categoryIndex {
         case 0:
             return [
-                Product(name: "原味蛋餅", image: "egg_pancake", quantity: 0, price: 30),
-                Product(name: "蔬菜蛋餅", image: "vegetable_egg_pancake", quantity: 0, price: 30),
-                Product(name: "玉米蛋餅", image: "corn_egg_pancake", quantity: 0, price: 30)
-            ]
-        case 1:
-            return [
-                Product(name: "＃鍋燒粥", image: "porridge", quantity: 0, price: 40),
-                Product(name: "鍋燒意麵", image: "noodles", quantity: 0, price: 50),
-                Product(name: "鍋燒雞絲", image: "shredded_chicken", quantity: 0, price: 50)
-            ]
-        case 2:
-            return [
-                Product(name: "豬肉總匯", image: "pork_platter", quantity: 0, price: 60),
-                Product(name: "肌肉總匯", image: "muscle_platter", quantity: 0, price: 70),
-                Product(name: "里肌總匯", image: "loin_platter", quantity: 0, price: 80)
+                Product(name: "原味蛋餅", image: "https://www.macc.com.tw/data/goods/gallery/202111/1637313718335422967.jpg", quantity: 0, price: 30),
+                                Product(name: "蔬菜蛋餅", image: "https://d3l76hx23vw40a.cloudfront.net/recipe/aa007-042a.jpg", quantity: 0, price: 30),
+                                Product(name: "玉米蛋餅", image: "https://www.macc.com.tw/data/goods/gallery/202111/1637313752147218648.jpg", quantity: 0, price: 30)
+                            ]
+                        case 1:
+                            return [
+                                Product(name: "鍋 燒 粥", image:  "https://d1ralsognjng37.cloudfront.net/f225c79e-d16d-4b04-a2d9-69f73321174c.jpeg", quantity: 0, price: 40),
+                                Product(name: "鍋燒意麵", image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi88Qx9PG3oUFkBns4XSGKAGvXrAI28ecSIH7r5lBUSBXKNL9JfiGmK6GrRV36YEnajCAXP0q65DRqUGo5syv0z0_y3wBmpYmzpt7PXlg07Rg0J_346So1zZGclGukklww3APCTiSfUw-5E88qvWtXlEI7tlymbpgUWLJkAqKiE3kVOuGHTEU6FpNlsgQ/s1600/00-1.jpg", quantity: 0, price: 50),
+                                Product(name: "鍋燒雞絲", image:"https://cdn-ak.f.st-hatena.com/images/fotolife/y/yasumarutaiwan/20211216/20211216155458.jpg", quantity: 0, price: 50)
+                            ]
+                        case 2:
+                            return [
+                                Product(name: "豬肉總匯", image: "https://www.hongya88.com.tw/Content/Upload/Picture/Food/浮水印/0弘爺漢堡早餐菜單-招牌總匯-大.png", quantity: 0, price: 60),
+                                Product(name: "雞肉總匯", image: "https://d3l76hx23vw40a.cloudfront.net/recipe/webp/bk44-035a.webp", quantity: 0, price: 70),
+                                Product(name: "里肌總匯", image: "https://i.imgur.com/WifJsHK.jpeg", quantity: 0, price: 80)
             ]
         default:
             return []

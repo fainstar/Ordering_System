@@ -1,18 +1,12 @@
-//
-//  CH1.swift
-//  Ordering_System
-//
-//  Created by 蔡尚儒 on 2024/10/23.
-//
-
 import SwiftUI
 import AVFoundation
+import Speech
 
 struct CH1View: View {
     @State private var recognizedText = "請按下按鈕開始錄音..."
     @State private var isRecording = false
-    @State private var audioRecorder: AVAudioRecorder?  // 將 audioRecorder 改為 @State
-    @State private var audioPlayer: AVAudioPlayer?      // 將 audioPlayer 改為 @State
+    @State private var audioRecorder: AVAudioRecorder?
+    @State private var audioPlayer: AVAudioPlayer?
 
     private let audioFilename: URL = {
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -20,7 +14,8 @@ struct CH1View: View {
     }()
 
     init() {
-        requestMicrophonePermission()  // 請求麥克風權限
+        requestMicrophonePermission()
+        requestSpeechRecognitionPermission()
     }
 
     var body: some View {
@@ -29,7 +24,6 @@ struct CH1View: View {
                 .font(.largeTitle)
                 .padding()
 
-            // 顯示錄音狀態
             Text(recognizedText)
                 .padding()
                 .background(Color.gray.opacity(0.2))
@@ -37,7 +31,6 @@ struct CH1View: View {
                 .frame(height: 200)
                 .padding()
 
-            // 開始/停止錄音按鈕
             Button(action: {
                 if isRecording {
                     stopRecording()
@@ -53,7 +46,6 @@ struct CH1View: View {
                     .cornerRadius(10)
             }
 
-            // 播放錄音按鈕
             Button(action: {
                 playRecording()
             }) {
@@ -66,11 +58,10 @@ struct CH1View: View {
         }
         .padding()
         .onAppear {
-            setupAudioRecorder()  // 在出現時初始化錄音器
+            setupAudioRecorder()
         }
     }
 
-    // 請求麥克風權限
     private func requestMicrophonePermission() {
         switch AVCaptureDevice.authorizationStatus(for: .audio) {
         case .authorized:
@@ -92,7 +83,21 @@ struct CH1View: View {
         }
     }
 
-    // 設定音訊會話及錄音器
+    private func requestSpeechRecognitionPermission() {
+        SFSpeechRecognizer.requestAuthorization { authStatus in
+            switch authStatus {
+            case .authorized:
+                print("已獲得語音辨識權限")
+            case .denied:
+                print("語音辨識權限被拒絕")
+            case .restricted, .notDetermined:
+                print("語音辨識權限受限或未決定")
+            @unknown default:
+                break
+            }
+        }
+    }
+
     private func setupAudioRecorder() {
         let audioSession = AVAudioSession.sharedInstance()
         do {
@@ -114,19 +119,17 @@ struct CH1View: View {
         }
     }
 
-    // 開始錄音
     private func startRecording() {
         audioRecorder?.record()
         recognizedText = "正在錄音..."
     }
 
-    // 停止錄音
     private func stopRecording() {
         audioRecorder?.stop()
-        recognizedText = "錄音已停止，您可以播放錄音。"
+        recognizedText = "錄音已停止，正在轉換為文字..."
+        transcribeAudio() // 停止錄音後自動轉換為文字
     }
 
-    // 播放錄音
     private func playRecording() {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: audioFilename)
@@ -134,6 +137,21 @@ struct CH1View: View {
             recognizedText = "正在播放錄音..."
         } catch {
             recognizedText = "播放錄音時出現錯誤: \(error.localizedDescription)"
+        }
+    }
+
+    // 將錄音轉換為文字
+    private func transcribeAudio() {
+        // 設定語音辨識器為繁體中文
+        let recognizer = SFSpeechRecognizer(locale: Locale(identifier: "zh-TW"))
+        let request = SFSpeechURLRecognitionRequest(url: audioFilename)
+        
+        recognizer?.recognitionTask(with: request) { result, error in
+            if let result = result {
+                self.recognizedText = result.bestTranscription.formattedString
+            } else if let error = error {
+                self.recognizedText = "轉換錄音時出現錯誤: \(error.localizedDescription)"
+            }
         }
     }
 }

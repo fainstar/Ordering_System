@@ -37,7 +37,7 @@ struct ContentView: View {
                     NavigationLink(destination: DesignTeamView()) {
                         ButtonView(buttonText: "設計團隊", color: .orange,backgroundColor: .gray,image:"person.2.fill")
                     }
-                    NavigationLink(destination: AboutSystemView()) {
+                    NavigationLink(destination: CH1View()) {
                         ButtonView(buttonText: "關於系統", color: .purple,backgroundColor: .gray,image:"info.bubble.fill")
                     }
                 }
